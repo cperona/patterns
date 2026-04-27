@@ -1,10 +1,12 @@
 package strategy;
 
-public class CsvReportStrategy implements ReportStrategy<String> {
+public class CsvReportStrategy implements ReportStrategy {
 
     @Override
-    public String generateReport(int id, String message) {
-        return "Report_ID; Report_Message" + "\n"
-                + id + "; " + message;
+    public void generateReport(int id, String message) {
+        System.out.println(
+                "Report_ID; Report_Message" + "\n"
+                + id + "; " + message
+        );
     }
 }

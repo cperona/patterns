@@ -1,9 +1,10 @@
 package strategy;
 
-public class HTMLReportStrategy implements ReportStrategy<String> {
+public class HTMLReportStrategy implements ReportStrategy {
     @Override
-    public String generateReport(int id, String message) {
-        return "<!doctype html>\n" +
+    public void generateReport(int id, String message) {
+        System.out.println(
+                "<!doctype html>\n" +
                 "<html>\n" +
                 "  <head>\n" +
                 "    <title>Report page</title>\n" +
@@ -13,6 +14,7 @@ public class HTMLReportStrategy implements ReportStrategy<String> {
                 "    <p>Report ID: </p>\n" + id +
                 "    <p>Report Message: </p>\n" + message +
                 "  </body>\n" +
-                "</html>";
+                "</html>"
+        );
     }
 }

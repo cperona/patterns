@@ -3,22 +3,19 @@ package strategy;
 public class Main {
     public static void main(String[] args) {
         // HTML
-        ReportStrategy<String> htmlReportStrategy = new HTMLReportStrategy();
-        String HTMLReport = htmlReportStrategy.generateReport(1, "An error occurred...");
-        System.out.println(HTMLReport);
+        ReportStrategy htmlReportStrategy = new HTMLReportStrategy();
+        htmlReportStrategy.generateReport(1, "An error occurred...");
 
         // CSV
-        ReportStrategy<String> csvReportStrategy = new CsvReportStrategy();
-        String CSVReport = csvReportStrategy.generateReport(2, "An error occurred...");
-        System.out.println(CSVReport);
-
-        // CSV2
-        ReportStrategy<String> csvReportStrategy2 = (id, message) -> "Report_ID; Report_Message" + "\n" + id + "; " + message;
-        String CSVReport2 = csvReportStrategy2.generateReport(3, "An error occurred...");
-        System.out.println(CSVReport2);
+        ReportStrategy csvReportStrategy = new CsvReportStrategy();
+        csvReportStrategy.generateReport(2, "An error occurred...");
 
         // PDF
         PDFReportStrategy pdfReportStrategy = new PDFReportStrategy();
+        pdfReportStrategy.generateReport(3, "An error occurred...");
 
+        // ODT
+        ODTReportStrategy odtReportStrategy = new ODTReportStrategy();
+        odtReportStrategy.generateReport(4, "An error occurred...");
     }
 }

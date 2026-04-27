@@ -16,6 +16,11 @@ dependencies {
 
     // Source: https://mvnrepository.com/artifact/com.itextpdf/itextpdf
     implementation("com.itextpdf:itextpdf:5.5.13.5")
+    implementation("org.apache.pdfbox:pdfbox:2.0.27")
+    // Source: https://mvnrepository.com/artifact/org.odftoolkit/odfdom-java
+    implementation("org.odftoolkit:odfdom-java:0.13.0")
+    // Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation("org.slf4j:slf4j-api:2.0.17")
 }
 
 tasks.test {
