@@ -14,8 +14,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // Source: https://mvnrepository.com/artifact/com.itextpdf/itextpdf
-    implementation("com.itextpdf:itextpdf:5.5.13.5")
     implementation("org.apache.pdfbox:pdfbox:2.0.27")
     // Source: https://mvnrepository.com/artifact/org.odftoolkit/odfdom-java
     implementation("org.odftoolkit:odfdom-java:0.13.0")
