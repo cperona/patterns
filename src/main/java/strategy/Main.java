@@ -11,11 +11,11 @@ public class Main {
         csvReportStrategy.generateReport(2, "An error occurred...");
 
         // PDF
-        PDFReportStrategy pdfReportStrategy = new PDFReportStrategy();
+        ReportStrategy pdfReportStrategy = new PDFReportStrategy();
         pdfReportStrategy.generateReport(3, "An error occurred...");
 
         // ODT
-        ODTReportStrategy odtReportStrategy = new ODTReportStrategy();
+        ReportStrategy odtReportStrategy = new ODTReportStrategy();
         odtReportStrategy.generateReport(4, "An error occurred...");
     }
 }
