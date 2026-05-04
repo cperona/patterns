@@ -1,33 +1,39 @@
 package builder;
 
-public class MenuBuilder implements IMenuBuilder{
+import builder.steps.*;
+
+public class MenuBuilder implements StarterStep, MainCourseStep, DessertStep, DrinkStep , BuildStep {
 
     private Menu menu;
 
-    public MenuBuilder() {
+    private MenuBuilder() {
         this.menu = new Menu();
     }
 
+    public static StarterStep builder() {
+        return new MenuBuilder();
+    }
+
     @Override
-    public IMenuBuilder withStarter(String starter) {
+    public MainCourseStep withStarter(String starter) {
         menu.setStarter(starter);
         return this;
     }
 
     @Override
-    public IMenuBuilder withMainCourse(String mainCourse) {
+    public DessertStep withMainCourse(String mainCourse) {
         menu.setMainCourse(mainCourse);
         return this;
     }
 
     @Override
-    public IMenuBuilder withDessert(String dessert) {
+    public DrinkStep withDessert(String dessert) {
         menu.setDessert(dessert);
         return this;
     }
 
     @Override
-    public IMenuBuilder withDrink(String drink) {
+    public BuildStep withDrink(String drink) {
         menu.setDrink(drink);
         return this;
     }
