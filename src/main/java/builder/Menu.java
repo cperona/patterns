@@ -1,52 +1,61 @@
 package builder;
 
-import builder.menu.MenuPlate;
+import builder.menu.Drink;
+import builder.menu.MainCourse;
 import builder.menu.Starter;
 
+import java.util.Optional;
+
 public class Menu {
-    private Starter starter;
-    private String mainCourse;
-    private String supplement;
-    private String dessert;
-    private String drink;
 
-    public Starter getStarter() {
-        return starter;
-    }
+    private final Starter starter;
+    private final MainCourse mainCourse;
+    private final Dish dessertCourse;
+    private final Drink drink;
 
-    public void setStarter(Starter starter) {
+    public Menu(Starter starter, MainCourse mainCourse, Dish dessertCourse, Drink drink) {
+        if (mainCourse == null) {
+            throw new IllegalStateException("MainCourse is mandatory");
+        }
         this.starter = starter;
+        this.mainCourse = mainCourse;
+        this.dessertCourse = dessertCourse;
+        this.drink = drink;
     }
 
-    public String getMainCourse() {
+    // Use Optional class to handle null values
+    public Optional<Starter> getStarter() {
+        return Optional.ofNullable(starter);
+    }
+    public MainCourse getMainCourse() {
         return mainCourse;
     }
-
-    public void setMainCourse(String mainCourse) {
-        this.mainCourse = mainCourse;
+    public Optional<Dish> getDessertCourse() {
+        return Optional.ofNullable(dessertCourse);
+    }
+    public Optional<Drink> getDrink() {
+        return Optional.ofNullable(drink);
     }
 
-    public String getSupplement() {
-        return supplement;
-    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Menu:\n");
 
-    public void setSupplement(String supplement) {
-        this.supplement = supplement;
-    }
+        getStarter().ifPresent(s ->
+            sb.append(" - ").append(s.getCourseLabel()).append(": ").append(s).append("\n")
+        );
 
-    public String getDessert() {
-        return dessert;
-    }
+        sb.append(" - ").append(mainCourse.getCourseLabel())
+          .append(": ").append(mainCourse).append("\n");
 
-    public void setDessert(String dessert) {
-        this.dessert = dessert;
-    }
+        getDessertCourse().ifPresent(d ->
+            sb.append(" - ").append(d.getCourseLabel()).append(": ").append(d).append("\n")
+        );
 
-    public String getDrink() {
-        return drink;
-    }
+        getDrink().ifPresent(dr ->
+            sb.append(" - Drink: ").append(dr).append("\n")
+        );
 
-    public void setDrink(String drink) {
-        this.drink = drink;
+        return sb.toString().stripTrailing();
     }
 }

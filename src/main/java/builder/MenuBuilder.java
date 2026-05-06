@@ -1,73 +1,160 @@
 package builder;
 
-import builder.menu.MenuPlate;
-import builder.menu.Starter;
-import builder.steps.*;
-import org.apache.jena.atlas.logging.Log;
+import builder.menu.*;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MenuBuilder {
 
-public class MenuBuilder implements StarterStep, MainCourseStep, DessertStep, DrinkStep, BuildStep {
-
-    private List<MenuPlate> menu;
-
-    private MenuBuilder() {
-        this.menu = new ArrayList<>();
+    public IStarterConfig withStarter(String name) {
+        MenuData data = new MenuData();
+        data.starter = new Starter(name);
+        return new StarterConfigStep(data);
     }
 
-    public static StarterStep builder() {
-        return new MenuBuilder();
+    public IMainCourseConfig withMainCourse(String name) {
+        MenuData data = new MenuData();
+        data.mainCourse = new MainCourse(name);
+        return new MainCourseConfigStep(data);
     }
 
-    @Override
-    public MenuBuilder isVegan() {
-        Vegan.setVegan(menu.getLast());
-        return this;
+    private static final class MenuData {
+        Starter starter;
+        MainCourse mainCourse;
+        Dish dessertCourse; // It can be a proper dessert or a coffee
+        Drink drink;
+
+        Menu build() {
+            return new Menu(starter, mainCourse, dessertCourse, drink);
+        }
     }
 
-    @Override
-    public MenuBuilder isGlutenFree() {
-        GlutenFree.setGlutenFree(menu.getLast());
-        return this;
+    private static final class StarterConfigStep implements IStarterConfig {
+
+        private final MenuData data;
+
+        private StarterConfigStep(MenuData data) {
+            this.data = data;
+        }
+
+        @Override
+        public IStarterConfig isVegan() {
+            data.starter.setVegan(true);
+            return this;
+        }
+
+        @Override
+        public IStarterConfig isGlutenFree() {
+            data.starter.setGlutenFree(true);
+            return this;
+        }
+
+        @Override
+        public IMainCourseConfig withMainCourse(String name) {
+            data.mainCourse = new MainCourse(name);
+            return new MainCourseConfigStep(data);
+        }
     }
 
-    // 1 - Starter step
+    private static final class MainCourseConfigStep implements IMainCourseConfig {
 
-    @Override
-    public MainCourseStep withStarter(String starter) {
-        menu.add(new Starter(starter, false, false));
+        private final MenuData data;
 
-        return this;
+        private MainCourseConfigStep(MenuData data) {
+            this.data = data;
+        }
+
+        @Override
+        public IMainCourseConfig isVegan() {
+            data.mainCourse.setVegan(true);
+            return this;
+        }
+
+        @Override
+        public IMainCourseConfig isGlutenFree() {
+            data.mainCourse.setGlutenFree(true);
+            return this;
+        }
+
+        @Override
+        public IMainCourseConfig withSupplement(String supplement) {
+            data.mainCourse.setSupplement(supplement);
+            return this;
+        }
+
+        @Override
+        public IAfterDessert withDessert(String name) {
+            data.dessertCourse = new Dessert(name);
+            return new AfterDessertStep(data);
+        }
+
+        @Override
+        public IAfterCoffee withCoffee(String name) {
+            data.dessertCourse = new Coffee(name);
+            return new AfterCoffeeStep(data);
+        }
+
+        @Override
+        public IAfterDrink withDrink(String name) {
+            data.drink = new Drink(name);
+            return new AfterDrinkStep(data);
+        }
+
+        @Override
+        public Menu build() {
+            return data.build();
+        }
     }
 
-    // 2 - MainCourse step
+    private static final class AfterDessertStep implements IAfterDessert {
 
-    @Override
-    public DessertStep withMainCourse(String mainCourse) {
-        menu.setMainCourse(mainCourse);
-        return this;
-    }
-   // 2.1 - MainCourse substep
-    @Override
-    public DessertStep withSuplement(String suplement) {
-        return null;
-    }
+        private final MenuData data;
 
-    @Override
-    public DrinkStep withDessert(String dessert) {
-        menu.setDessert(dessert);
-        return this;
-    }
+        private AfterDessertStep(MenuData data) {
+            this.data = data;
+        }
 
-    @Override
-    public BuildStep withDrink(String drink) {
-        menu.setDrink(drink);
-        return this;
+        @Override
+        public IAfterDrink withDrink(String name) {
+            data.drink = new Drink(name);
+            return new AfterDrinkStep(data);
+        }
+
+        @Override
+        public Menu build() {
+            return data.build();
+        }
     }
 
-    @Override
-    public Menu build() {
-        return menu;
+    private static final class AfterCoffeeStep implements IAfterCoffee {
+
+        private final MenuData data;
+
+        private AfterCoffeeStep(MenuData data) {
+            this.data = data;
+        }
+
+        @Override
+        public IAfterDrink withDrink(String name) {
+            data.drink = new Drink(name);
+            return new AfterDrinkStep(data);
+        }
+
+        @Override
+        public Menu build() {
+            return data.build();
+        }
+    }
+
+    private static final class AfterDrinkStep implements IAfterDrink {
+
+        private final MenuData data;
+
+        private AfterDrinkStep(MenuData data) {
+            this.data = data;
+        }
+
+        @Override
+        public Menu build() {
+            return data.build();
+        }
     }
 }

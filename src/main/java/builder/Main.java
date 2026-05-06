@@ -1,21 +1,28 @@
 package builder;
 
-import builder.menu.Starter;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
-    public static void main() {
-        /*Menu executiveMenu = MenuBuilder.builder()
-                .withStarter("Amanida Mediterrània")
-                .withMainCourse("\"Filet de Vedella")
-                .withDessert("Mousse de xocolata")
-                .withDrink("Vi negre")
-                .build();*/
-
-        Menu executiveMenu2 = MenuBuilder.builder()
+    public static void main(String[] args) {
+        Menu executiveMenu = new MenuBuilder()
                 .withStarter("Amanida Mediterrània")
                 .isVegan()
+                .isGlutenFree()
+                .withMainCourse("Filet de Vedella")
+                .withSupplement("Guarnició extra")
+                .withDessert("Mousse de xocolata")
+                .withDrink("Vi Negre")
+                .build();
+
+        Menu kidsMenu = new MenuBuilder()
+                .withMainCourse("Macarrons amb tomàquet")
+                .withDessert("Gelat de Vainilla")
+                .withDrink("Suc de taronja")
+                .build();
+
+        Menu halfMenu = new MenuBuilder()
+                .withMainCourse("Risotto de bolets")
+                .isVegan()
+                .withCoffee("Espresso")
+                .withDrink("Aigua")
+                .build();
     }
 }

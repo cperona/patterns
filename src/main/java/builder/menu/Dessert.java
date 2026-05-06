@@ -2,14 +2,14 @@ package builder.menu;
 
 import builder.Dish;
 
-public class Starter extends Dish {
+public class Dessert extends Dish {
 
-    public Starter(String name) {
+    public Dessert(String name) {
         super(name);
     }
 
     @Override
     public String getCourseLabel() {
-        return "Starter";
+        return "Dessert";
     }
 }
